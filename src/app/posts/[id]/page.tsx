@@ -3,21 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import styles from "./PostId.module.scss";
-
-export default function PostId() {
+export default function Post() {
   const { id } = useParams();
-  const {
-    data: postData,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["posts", id],
-    queryFn: async () => {
-      const res = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${id}`
-      );
 
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["posts", id],
+    queryFn: async ({ queryKey }) => {
+      const res = await fetch(`/api/posts/${queryKey[1]}`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
       return res.json();
     },
   });
@@ -31,11 +26,11 @@ export default function PostId() {
   }
 
   return (
-    <div className="">
-      <Link href="/posts">....Back to posts</Link>
-      <div className={styles.post}>
-        <h2 className={styles.post__title}>{postData.title}</h2>
-        <p className={styles.post__text}>{postData.body}</p>
+    <div>
+      <Link href="/posts">Back to posts</Link>
+      <div>
+        <h2>{data.title}</h2>
+        <p>{data.body}</p>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Pagination from "rc-pagination";
 import "rc-pagination/assets/index.css";
 import { fetchPosts } from "../api/posts/route";
 
+
 export default function Posts() {
   const router = useRouter();
 
