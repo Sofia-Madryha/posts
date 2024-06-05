@@ -3,18 +3,15 @@ import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import styles from "./PostsPage.module.scss";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Pagination from "rc-pagination";
+import "rc-pagination/assets/index.css";
+import { fetchPosts } from "../api/posts/route";
 
 export default function Posts() {
   const router = useRouter();
 
-  const fetchPosts = async (page: any) => {
-    const res = await fetch(
-      `https://jsonplaceholder.typicode.com/posts?_page=${page}`
-    );
-    return res.json();
-  };
-
   const [page, setPage] = useState(1);
+  const [postsPerPage] = useState(1);
 
   const { data: postsData, isLoading } = useQuery({
     queryKey: ["posts", page],
@@ -26,6 +23,11 @@ export default function Posts() {
     return <p>It is loading</p>;
   }
 
+  const updatePage = (p: any) => {
+    setPage(p);
+  };
+
+  console.log(postsData);
   return (
     <div className={styles.data}>
       <h1 className={styles.data__title}>Posts</h1>
@@ -42,21 +44,12 @@ export default function Posts() {
         ))}
       </div>
 
-      <div className={styles.buttons}>
-        <button
-          className={styles.buttons__item}
-          onClick={() => setPage((prev) => (prev > 1 ? prev - 1 : 1))}
-        >
-          Prev
-        </button>
-        <p className="">{page}</p>
-        <button
-          className={styles.buttons__item}
-          onClick={() => setPage((prev) => prev + 1)}
-        >
-          Next
-        </button>
-      </div>
+      <Pagination
+        pageSize={postsPerPage}
+        onChange={updatePage}
+        current={page}
+        total={postsData.length}
+      />
     </div>
   );
 }

@@ -13,6 +13,7 @@
     "@tanstack/react-query-devtools": "^5.40.1",
     "axios": "^1.7.2",
     "next": "14.2.3",
+    "rc-pagination": "^4.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-paginate": "^8.2.0",
