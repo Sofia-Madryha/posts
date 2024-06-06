@@ -1,3 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function Home() {
-  return <div>Main page</div>;
+  const router = useRouter();
+
+  return <div onClick={() => router.push("/posts")}>go to posts</div>;
 }
