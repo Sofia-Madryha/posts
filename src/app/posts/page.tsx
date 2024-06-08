@@ -1,9 +1,7 @@
 "use client";
 
-import { PostList } from "@/components/PostList";
-
-
+import { PostListInfiniteScroll } from "@/components";
 
 export default function PostsPage() {
-  return <PostList  />;
+  return <PostListInfiniteScroll />;
 }

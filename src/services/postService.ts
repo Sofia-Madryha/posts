@@ -8,6 +8,15 @@ export const fetchPosts = async (page: number) => {
   return { data, total: parseInt(total || "0", 10) };
 };
 
+export const fetchPostsInfiniteScroll = async (page: any) => {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_page=${page.pageParam}`
+  );
+
+  const data = await res.json();
+  return data;
+};
+
 export const fetchPostById = async (id: string) => {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
   if (!res.ok) {
@@ -15,5 +24,3 @@ export const fetchPostById = async (id: string) => {
   }
   return res.json();
 };
-
-
