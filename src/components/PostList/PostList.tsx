@@ -1,19 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Pagination from "rc-pagination";
 import "rc-pagination/assets/index.css";
 import styles from "./PostList.module.scss";
 
-import { usePosts } from "@/hooks/usePosts";
+import { prefetchPosts, usePosts } from "@/hooks/usePosts";
 
 export default function PostList() {
   const router = useRouter();
-
+  const queryClient = useQueryClient();
+  
   const [page, setPage] = useState(1);
   const [postsPerPage] = useState(10);
 
-const { data: postsData, isLoading } = usePosts(page);
+  const { data: postsData, isLoading } = usePosts(page);
+
+  useEffect(() => {
+    const nextPage = page + 1;
+    prefetchPosts(queryClient, nextPage);
+  }, [page]);
 
   if (isLoading) {
     return <p>It is loading</p>;

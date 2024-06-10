@@ -1,5 +1,7 @@
 import { fetchPostsInfiniteScroll } from "@/services";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+
+
 
 export const useInfiniteScroll = () => {
   return useInfiniteQuery({
